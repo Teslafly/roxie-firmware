@@ -20,6 +20,7 @@
 #include "vesc_comm.h"
 #include "button_interrupt.h"
 #include "vertical_screen.h"
+#include "vertical_screen2.h"
 //#include "screen_data.h"
 //#include "ssd1306_screen.h"
 
@@ -32,6 +33,7 @@ VescCommStandard vesc_comm = VescCommStandard();
 #endif
 
 VerticalScreen vertical_screen;
+VerticalScreen2 vertical_screen2;
 t_screen_config screen_config;
 t_data data;                  // struct containing data received from vesc
 t_session_data session_data;  // data from this session
@@ -64,6 +66,7 @@ void setup()
     screen_config = {make_fw_version(FW_VERSION, REVISION_ID), IMPERIAL_UNITS, USE_FAHRENHEIT,
                      SHOW_AVG_CELL_VOLTAGE, BATTERY_S, SCREEN_ORIENTATION};
     vertical_screen = VerticalScreen();
+    vertical_screen2 = VerticalScreen2();
 
     // Initialize EEPROM and/or read stored data from it.
     if (!eeprom_is_initialized(EEPROM_MAGIC_VALUE))
@@ -88,6 +91,8 @@ void setup()
     vertical_screen.update(&data);
 }
 
+bool default_screen = true;
+
 void loop()
 {
     check_buttons();
@@ -102,8 +107,13 @@ void loop()
 
     process_other_values();
 
-    vertical_screen.update(&data);
-    vertical_screen.heartbeat(UPDATE_DELAY, true);
+    if(default_screen){
+        vertical_screen.update(&data);
+        vertical_screen.heartbeat(UPDATE_DELAY, true);
+    } else {
+        vertical_screen2.update(&data);
+        vertical_screen2.heartbeat(UPDATE_DELAY, true);
+    }
 
 }
 
@@ -114,8 +124,24 @@ void check_buttons()
     button2.update_button();
     button3.update_button();
 
-    if(button2.get_long_click())
+    if(button1.get_clicked() || button2.get_clicked())
     {
+        DEB("button 1 or 3 pushed");
+        if (default_screen)
+        {
+            vertical_screen2.init(&screen_config);
+            vertical_screen2.draw_basic();
+            default_screen = false;
+        } else {
+            vertical_screen.init(&screen_config);
+            vertical_screen.draw_basic();
+            default_screen = true;
+        }
+    }
+
+    if(button3.get_long_click())
+    {
+        DEB("button 2 pushed");
         startup_trip_meters = 0 - rotations_to_meters(data.tachometer / 6);
         vertical_screen.process_buttons(&data, true);
     }

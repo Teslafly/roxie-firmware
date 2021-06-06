@@ -17,16 +17,16 @@
 #define ROXIE_CONFIG_H
 
 // comment if not using arduino nano every
-// #define ARDUINO_NANO_EVERY
+#define ARDUINO_NANO_EVERY
 
 #define VESC_COUNT 1 // number of controllers: 1 = single, 2 = dual (set to 1 for FOCBOX Unity unless you have more than 1)
-#define MOTOR_POLE_PAIRS 14
-#define WHEEL_DIAMETER_MM 2100
+#define MOTOR_POLE_PAIRS 10
+#define WHEEL_DIAMETER_MM 503
 #define MOTOR_PULLEY_TEETH 1
-#define WHEEL_PULLEY_TEETH 6
+#define WHEEL_PULLEY_TEETH 5
 
 // 0=portrait, 1=right rotated landscape, 2=reverse portrait, 3=left rotated landscape
-#define SCREEN_ORIENTATION 2
+#define SCREEN_ORIENTATION 0
 
 // Affects the speed indicator. If MAX_SPEED_KPH is exceeded, no major disaster will happen.
 // The speed indicator will merely indicate the current speed as the max speed (all blue rectangles
@@ -139,11 +139,7 @@
 #define DEBUG
 
 #ifdef DEBUG
-    #ifdef ARDUINO_NANO_EVERY
-        #define DEB(x) Serial.println(x)
-    #else
-        #define DEB(x) Serial3.println(x)
-    #endif
+  #define DEB(x) Serial.println(x)
 #else
     #define DEB(x)
 #endif
@@ -156,35 +152,17 @@
 
 #define LEN(X) (sizeof(X) / sizeof(X[0]))
 
-#ifdef ARDUINO_NANO_EVERY
 #define BUTTON_1_PIN A0
 #define BUTTON_2_PIN A1
 #define BUTTON_3_PIN A2
-#else
-#define BUTTON_1_PIN PB3
-#define BUTTON_2_PIN PB4
-#define BUTTON_3_PIN PB5
-#endif
 
-#ifndef ARDUINO_NANO_EVERY
-    #define TFT_RS PA2 // REGISTER SELECT
-    #define TFT_CS PA4 // CS
-    #define TFT_RST PA0
-    #define TFT_SDI PA7 // MOSI
-    #define TFT_CLK PA5 // SCK
-    #define TFT_LED 0
-#else
-    #define TFT_RS 9 // REGISTER SELECT
-    #ifdef ARDUINO_NANO_EVERY
-        #define TFT_CS 8   // CS
-        #define TFT_RST 10 // TODO: 12 does not work, check why
-    #else
-        #define TFT_CS 10 // CS
-        #define TFT_RST 12
-    #endif
-    #define TFT_SDI 11 // MOSI
-    #define TFT_CLK 13 // SCK
-    #define TFT_LED 0
-#endif
+
+#define TFT_RS 9 // REGISTER SELECT
+#define TFT_CS 8   // CS
+#define TFT_RST 10 // RESET pin
+#define TFT_SDI 11 // MOSI
+#define TFT_CLK 13 // SCK
+#define TFT_LED 0
+
 
 #endif //ROXIE_CONFIG_H
