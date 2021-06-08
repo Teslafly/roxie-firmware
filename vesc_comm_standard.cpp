@@ -37,8 +37,8 @@ void VescCommStandard::process_packet(t_data* data){
     data->voltage = get_voltage();
     data->wh_spent = get_watthours_discharged();
     data->mah_charged = get_amphours_charged();
-    data->mah_discharged = get_amphours_discharged();
-    //Serial3.println("Wh_spent: " + String(data->wh_spent) + " Ah_spent: " + String(data->mah_discharged));
+    data->mah_discharged = get_amphours_discharged() * 1000;
+    //DEB("Wh_spent: " + String(data->wh_spent) + " mAh_spent: " + String(data->mah_discharged));
     data->tachometer = get_tachometer();
     data->rpm = get_rpm();
     data->speed_kph = max(erpm_to_kph(data->rpm), float(0));

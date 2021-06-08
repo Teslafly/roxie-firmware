@@ -56,7 +56,7 @@ void VerticalScreen::update(t_data *data) {
         dtostrf(data->voltage, 4, 1, value4);
 
 
-    dtostrf(convert_km_to_miles(data->trip_km, _config->imperial_units), 5, 2, value1);
+    dtostrf(convert_km_to_miles(data->trip_km, _config->imperial_units), 5, 1, value1);
     format_total_distance(convert_km_to_miles(data->total_km, _config->imperial_units), value2);
     dtostrf(data->motor_amps, 4, 1, value3);
     dtostrf(convert_temperature(data->mosfet_celsius, _config->use_fahrenheit), 3, 1, temp_value);

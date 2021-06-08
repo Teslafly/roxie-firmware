@@ -1,4 +1,5 @@
 #include "button_interrupt.h"
+#include "roxie_config.h"
 
 #define DEBOUNCE_DELAY 25
 #define LONG_PRESS 2000
@@ -17,11 +18,11 @@ bool Button::update_button()
 		{
 			if (_risen_time - _fallen_time < DEBOUNCE_DELAY)
 			{
-				//Serial3.println("But->No action:  " + String(_risen_time - _fallen_time) + " ms");
+				DEB("But->No action:  " + String(_risen_time - _fallen_time) + " ms");
 			}
 			else
 			{
-				//Serial3.println("But->Press:  " + String(_risen_time - _fallen_time) + " ms");
+				DEB("But->Press:  " + String(_risen_time - _fallen_time) + " ms");
 				_clicked = true;
 			}
 			_fallen_flag = false;
@@ -33,7 +34,7 @@ bool Button::update_button()
 	{
 		if ((millis() - _fallen_time) > LONG_PRESS)
 		{
-			//Serial3.println("But->Long press:  " + String(millis() - _fallen_time) + " ms");
+			DEB("But->Long press:  " + String(millis() - _fallen_time) + " ms");
 			_long_click = true;
 			_fallen_flag = false;
 			return true;
@@ -48,13 +49,13 @@ void Button::button_changed()
 	{
 		_fallen_time = millis();
 		_fallen_flag = true;
-		//Serial3.println("low");
+		DEB("low");
 	}
 	else
 	{
 		_risen_flag = true;
 		_risen_time = millis();
-		//Serial3.println("high");
+		DEB("high");
 	}
 }
 

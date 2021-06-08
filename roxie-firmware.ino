@@ -119,14 +119,13 @@ void loop()
 
 void check_buttons()
 {
-
     button1.update_button();
     button2.update_button();
     button3.update_button();
 
     if(button1.get_clicked() || button2.get_clicked())
     {
-        DEB("button 1 or 3 pushed");
+        DEB("button 1 or 2 pushed");
         if (default_screen)
         {
             vertical_screen2.init(&screen_config);
@@ -141,7 +140,7 @@ void check_buttons()
 
     if(button3.get_long_click())
     {
-        DEB("button 2 pushed");
+        DEB("button 3 pushed");
         startup_trip_meters = 0 - rotations_to_meters(data.tachometer / 6);
         vertical_screen.process_buttons(&data, true);
     }
