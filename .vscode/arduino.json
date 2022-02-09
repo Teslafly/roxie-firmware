@@ -2,6 +2,6 @@
     "configuration": "mode=off",
     "board": "arduino:megaavr:nona4809",
     "programmer": "arduino:medbg",
-    "port": "/dev/tty.usbmodem144301",
+    "port": "/dev/cu.usbmodem143101",
     "sketch": "roxie-firmware.ino"
 }

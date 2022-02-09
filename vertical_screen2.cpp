@@ -30,7 +30,7 @@ void VerticalScreen2::draw_basic() {
     _tft->drawText(105, 20, "MOTOR AMPS", COLOR_WHITE);
     _tft->drawText(105, 75,"BAT AMPS", COLOR_WHITE);
     _tft->drawText(0, 130, "MAH CHARGED", COLOR_WHITE);
-    _tft->drawText(0, 180, "DUTY", COLOR_WHITE);
+    _tft->drawText(0, 180, "DUTY CYCLE", COLOR_WHITE);
     _tft->drawText(105, 130, "MAH USED", COLOR_WHITE);
     _tft->drawText(112, 180,  "WH SPENT", COLOR_WHITE);
 

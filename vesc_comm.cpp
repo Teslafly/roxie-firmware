@@ -51,7 +51,7 @@ void VescComm::init(uint32_t baud)
 uint8_t VescComm::fetch_packet(uint16_t timeout)
 {
 #ifndef SIM_VALUES
-    //DEB("fetching packet");
+    DEB("fetching packet");
     vesc_serial.write(GET_VALUES_PACKET, sizeof(GET_VALUES_PACKET));
     return receive_packet(timeout);
 #endif
@@ -90,36 +90,36 @@ uint8_t VescComm::receive_packet(uint16_t timeout)
 
 bool VescComm::is_expected_packet()
 {
-    /*     for(int i = 0; i < _bytes_read; i++)
+    for(int i = 0; i < _bytes_read; i++)
     {
-        //DEB(String(_packet[i]) + " ");
-    }*/
-    //DEB("bytes read : " + String(_bytes_read) + " bytes)");
+        Serial.print(String(_packet[i]) + " ");
+    }
+    DEB("bytes read : " + String(_bytes_read) + " bytes)");
     if (_bytes_read < 3)
     {
-        //DEB("packet too short (" + String(_bytes_read) + " bytes)");
+        DEB("packet too short (" + String(_bytes_read) + " bytes)");
         return false;
     }
 
     if (_packet[0] != PACKET_LENGTH_IDENTIFICATION_BYTE_SHORT)
     {
-        //DEB("unexpected length id byte: expected " + String(PACKET_LENGTH_IDENTIFICATION_BYTE_SHORT) +
-        // ", got " + String(_packet[0]));
+        DEB("unexpected length id byte: expected " + String(PACKET_LENGTH_IDENTIFICATION_BYTE_SHORT) +
+         ", got " + String(_packet[0]));
         return false;
     }
 
     if (_packet[2] != PACKET_GET_VALUES_TYPE)
     {
-        //DEB("unexpected packet type: expected " + String(PACKET_GET_VALUES_TYPE) +
-        // ", got " + String(_packet[2]));
+        DEB("unexpected packet type: expected " + String(PACKET_GET_VALUES_TYPE) +
+         ", got " + String(_packet[2]));
         return false;
     }
 
     uint8_t payload_length = _packet[1];
     if (_bytes_read != expected_packet_length(payload_length))
     {
-        //DEB("packet length (" + String(payload_length) + ") does not correspond to the payload length (" +
-        //  String(payload_length) + ")");
+        DEB("packet length (" + String(_bytes_read) + ") does not correspond to the payload length (" +
+          String(payload_length) + ")");
         return false;
     }
 
@@ -127,7 +127,7 @@ bool VescComm::is_expected_packet()
     uint16_t expected_crc = crc16(&_packet[2], payload_length);
     if (crc != expected_crc)
     {
-        //DEB("CRC error: expected " + String(expected_crc) + ", got " + String(crc));
+        DEB("CRC error: expected " + String(expected_crc) + ", got " + String(crc));
         return false;
     }
 

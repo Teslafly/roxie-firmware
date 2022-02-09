@@ -21,7 +21,7 @@
 #include "util.h"
 
 VescCommStandard::VescCommStandard() {
-    _max_packet_length = 78;
+    _max_packet_length = 80;
     #ifndef SIM_VALUES
         _packet = (uint8_t*) malloc(_max_packet_length * sizeof(*_packet));
     #endif
